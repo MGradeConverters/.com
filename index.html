@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MGrade Converters</title>
+    <style>
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1F2833;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            opacity: 0; /* Hide initially to apply fadeIn effect */
+        }
+
+        header {
+            width: 100%;
+            text-align: center;
+            background-color: rgb(0, 134, 118);
+            color: #ffffff;
+            padding: 75px;
+            margin-bottom: 35px;
+            display: inline;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 200px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+            margin-right: 100px; /* Add some space to the right of the logo */
+            margin-top: -50px;
+        }
+
+        .social-media-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: -100px; /* Adjust this value to move the icons up or down */
+        }
+
+        .social-media-icons a img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .converter-container {
+            background-color: #000000;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgb(0, 0, 0);
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 50px;
+            transition: transform 0.5s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .converter-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgb(0, 255, 234);
+        }
+
+        .quotes-container {
+            margin: 40px 0;
+        }
+
+        .donation-button-container {
+            text-align: right;
+            margin-top: -50px;
+        }
+
+        .donation-button {
+            background-color: rgb(0, 255, 234);
+            color: #000000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .donation-button:hover {
+            background-color: rgb(0, 189, 174);
+        }
+
+        h1 {
+            color: rgb(0, 255, 234);
+            margin-bottom: 20px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgb(0, 255, 234);
+        }
+
+        input {
+            width: calc(100% - 16px);
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            border: 1px solid rgb(0, 255, 234);
+            border-radius: 4px;
+            outline: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: rgb(0, 255, 234);
+            color: #000000;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: rgb(0, 189, 174);
+        }
+
+        .result {
+            margin-top: 20px;
+            color: rgb(0, 255, 234);
+            font-weight: bold;
+        }
+
+        section {
+            color: rgb(0, 255, 234);
+        }
+
+        .calculator-container {
+            display: none;
+        }
+
+        /* Add styles for the toggle button */
+        #toggleCalculatorBtn {
+            padding: 10px;
+            background-color: rgb(0, 134, 118);
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 10px;
+            margin-right: 1300px;
+        }
+
+        #toggleCalculatorBtn:hover {
+         background-color: rgb(0, 89, 78);
+        }
+
+        /* Mobile Calculator styles */
+        .calculator-form {
+            max-width: 300px;
+            margin: 20px auto;
+            background-color: #000000;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgb(0, 255, 234);
+        }
+
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .calculator-buttons button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #000000;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .calculator-buttons button:active {
+            background-color: rgb(0, 201, 184);
+        }
+
+        .calculator-input {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: rgb(0, 255, 234);
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Calculator Toggle Button -->
+<button id="toggleCalculatorBtn" onclick="toggleCalculator()">Calculator 🤖</button>
+
+<!-- Calculator Popup -->
+<div id="calculatorContainer" class="calculator-container">
+    <!-- Mobile Calculator Form -->
+    <div class="calculator-form">
+        <input type="text" id="calculatorInput" class="calculator-input" readonly>
+        <div class="calculator-buttons">
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="setOperator('/')">/</button>
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="setOperator('*')">*</button>
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="setOperator('-')">-</button>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="clearInput()">C</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="setOperator('+')">+</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Header -->
+
+<header>
+
+  <div class="logo">
+      <a href="">
+             <img src="Capture-wZhAjPuja-transformed.png" alt="Your Logo">
+      </a>
+  </div>
+
+    <h1></h1>
+<div class="social-media-icons">
+     <a href="https://www.linkedin.com/in/mithilesh-chandekar-62142b266/" target="_blank"><img src="LinkedIn_logo_initials.png" alt="Linkedin"></a>
+        <a href="https://www.instagram.com/mc_whooo/" target="_blank"><img src="Instagram_logo_2016.svg.webp" alt="Instagram"></a>
+        <!-- Add more social media icons as needed -->
+ </div>
+
+    <!-- Donation Button -->
+<div class="donation-button-container">
+    <a href="https://drive.google.com/file/d/1-ZMSTm6zBKph7R7ccnd-_fBu8Uxc_032/view?usp=sharing" class="donation-link">
+        <button class="donation-button">Donate ❤️</button>
+    </a>
+</div>
+
+</header>
+
+<!-- SGPA to Percentage Converter -->
+<div class="converter-container">
+    <h1>SGPA to Percentage</h1>
+    <form id="sgpaForm">
+        <label for="sgpa">Enter SGPA:</label>
+        <input type="number" id="sgpa" step="0.01" required>
+        <button type="button" onclick="convertSGPAToPercentage()">Convert</button>
+    </form>
+    <p id="sgpa-result" class="result"></p>
+</div>
+
+<!-- CGPA to Percentage Converter -->
+<div class="converter-container">
+    <h1>CGPA to Percentage</h1>
+    <form id="cgpaForm">
+        <label for="cgpa">Enter CGPA:</label>
+        <input type="number" id="cgpa" step="0.01" required>
+        <button type="button" onclick="convertCGPAToPercentage()">Convert</button>
+    </form>
+    <p id="cgpa-result" class="result"></p>
+</div>
+
+<!-- SGPA to CGPA Converter -->
+<div class="converter-container">
+    <h1>SGPA to CGPA</h1>
+    <form id="sgpaCGPAForm">
+        <label for="totalSemesters">Total Number of Semesters:</label>
+        <input type="number" id="totalSemesters" required>
+        <label for="sumSGPA">Sum of SGPA of All Semesters:</label>
+        <input type="number" id="sumSGPA" step="0.01" required>
+        <button type="button" onclick="convertSGPAToCGPA()">Convert</button>
+    </form>
+    <p id="sgpaCGPA-result" class="result"></p>
+</div>
+
+<!-- GPA to Grade Converter -->
+<div class="converter-container">
+    <h1>GPA to Grade</h1>
+    <form id="gpaGradeForm">
+        <label for="gpaGrade">Enter GPA:</label>
+        <input type="number" id="gpaGrade" step="0.01" required>
+        <button type="button" onclick="convertGPAToGrade()">Convert</button>
+    </form>
+    <p id="gpaGrade-result" class="result"></p>
+</div>
+
+<!-- Marks Percentage Converter -->
+<div class="converter-container">
+    <h1>Marks Percentage Calculator</h1>
+    <form id="marksPercentageForm">
+        <label for="marksScored">Marks Scored:</label>
+        <input type="number" id="marksScored" required>
+        <label for="marksOutOf">Out of:</label>
+        <input type="number" id="marksOutOf" required>
+        <button type="button" onclick="calculateMarksPercentage()">Calculate</button>
+    </form>
+    <p id="marksPercentage-result" class="result"></p>
+</div>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <h2>#Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <h3>Q: How do I use the calculators?</h3>
+            <p>A: Simply enter the required values and click the "Convert" button.</p>
+            <h3>Q: Can I calculate my percentage for multiple subjects?</h3>
+            <p>A: Yes, our calculator allows you to calculate the exam percentage for multiple subjects.</p>
+            <h3>Q: Is the exam percentage calculator accurate?</h3>
+            <p>A: The calculator uses a standardized formula to calculate percentages. However, ensure that you enter accurate data for precise results.</p>
+            <h3>Q: What if I have more than one semester's GPA? How can I calculate CGPA?</h3>
+            <p>A: You can use our SGPA to CGPA Calculator, which requires the total number of semesters and the sum of SGPA values.</p>
+            <h3>Q: How can I refresh the page?</h3>
+            <p>A: Simply click on the logo at the top of the page.</p>
+            <h3>Q: Can I use the calculator for both high school and college exams?</h3>
+            <p>A: Yes, the calculator is suitable for both high school and college exams.</p>
+            <h3>Q: Is there a limit to the number of subjects I can calculate percentages for?</h3>
+            <p>A: No, you can enter data for as many subjects as needed. The calculator will provide results for each subject.</p>
+        </div>
+        <!-- Add more FAQ items as needed -->
+
+    <!-- Quotes Section -->
+<div class="quotes-container">
+    <h2>#Quotes</h2>
+    <p>“Who really knows, and who can swear,
+        How creation came, when or where!
+        Even gods came after creation's day,
+        Who really knows and who can truly say,
+        When and how did creation start?
+        Did He do it? Or did He not?
+        Only He, up there, knows, maybe;
+        Or perhaps, not even He.” - Rig Veda</p>
+    <p>"It must be known that bad conduct leads to misery and good conduct to happiness.
+        Hence it is the duty of everyone to acquire goodness for the sake of worldly enjoyment as well as salvation." - Shiva Purana</p>
+    <!-- Add more quotes as needed -->
+</div>
+
+<!-- Copyright Footer -->
+<footer>
+    &copy; 2023 MGrade Converters. All rights reserved.
+</footer>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Fade in effect on page load
+        document.body.style.opacity = "1";
+    });
+
+    // SGPA to Percentage Converter
+    function convertSGPAToPercentage() {
+        var sgpa = document.getElementById('sgpa').value;
+        var percentage = (sgpa - 0.75) * 10;
+        document.getElementById('sgpa-result').innerHTML = "Percentage: " + percentage.toFixed(2) + "%";
+    }
+
+    // CGPA to Percentage Converter
+    function convertCGPAToPercentage() {
+        var cgpa = document.getElementById('cgpa').value;
+        var percentage = cgpa * 10;
+        document.getElementById('cgpa-result').innerHTML = "Percentage: " + percentage.toFixed(2) + "%";
+    }
+
+    // SGPA to CGPA Calculator
+    function convertSGPAToCGPA() {
+        var totalSemesters = parseInt(document.getElementById('totalSemesters').value);
+        var sumSGPA = parseFloat(document.getElementById('sumSGPA').value);
+
+        if (totalSemesters === 0) {
+            alert("Total Number of Semesters cannot be zero. Please enter a valid value.");
+            return;
+        }
+
+        var cgpa = sumSGPA / totalSemesters;
+        document.getElementById('sgpaCGPA-result').innerHTML = "CGPA: " + cgpa.toFixed(2);
+    }
+
+    // GPA to Grade Converter
+    function convertGPAToGrade() {
+        var gpa = document.getElementById('gpaGrade').value;
+        var grade = calculateGrade(gpa);
+        document.getElementById('gpaGrade-result').innerHTML = "Grade: " + grade;
+    }
+
+    // Marks Percentage Calculator
+    function calculateMarksPercentage() {
+        var marksScored = parseFloat(document.getElementById('marksScored').value);
+        var marksOutOf = parseFloat(document.getElementById('marksOutOf').value);
+
+        if (marksScored < 0 || marksOutOf <= 0 || marksScored > marksOutOf) {
+            alert("Invalid input. Please enter valid values.");
+            return;
+        }
+
+        var percentage = (marksScored / marksOutOf) * 100;
+        document.getElementById('marksPercentage-result').innerHTML = "Percentage: " + percentage.toFixed(2) + "%";
+    }
+
+    // Example logic for GPA to Grade conversion
+    function calculateGrade(gpa) {
+        if (gpa >= 9.5) {
+            return 'A+';
+        } else if (gpa >= 8.5) {
+            return 'A';
+        } else if (gpa >= 7.5) {
+            return 'B+';
+        } else if (gpa >= 6.5) {
+            return 'B';
+        } else if (gpa >= 5.5) {
+            return 'C+';
+        } else if (gpa >= 4.5) {
+            return 'C';
+        } else if (gpa >= 3.5) {
+            return 'D+';
+        } else if (gpa >= 2.5) {
+            return 'D';
+        } else if (gpa >= 1.5) {
+            return 'E';
+        } else {
+            return 'F';
+        }
+    }
+
+    function changeLanguage() {
+        var selectedLanguage = document.getElementById("languageSelect").value;
+        
+        // Update content based on the selected language
+        if (selectedLanguage === "en") {
+            // English content
+            document.getElementById("heading").textContent = "Mobile Calculator";
+            // Update other elements as needed
+        } else if (selectedLanguage === "es") {
+            // Spanish content
+            document.getElementById("heading").textContent = "Calculadora Móvil";
+            // Update other elements as needed
+        }
+        // Add more language options as needed
+    }
+
+    function toggleCalculator() {
+        var calculatorContainer = document.getElementById("calculatorContainer");
+        if (calculatorContainer.style.display === "none") {
+            calculatorContainer.style.display = "block";
+        } else {
+            calculatorContainer.style.display = "none";
+        }
+    }
+
+    // Mobile Calculator Functions
+    function appendValue(value) {
+        document.getElementById("calculatorInput").value += value;
+    }
+
+    function setOperator(operator) {
+        document.getElementById("calculatorInput").value += operator;
+    }
+
+    function clearInput() {
+        document.getElementById("calculatorInput").value = "";
+    }
+
+    function calculate() {
+        var input = document.getElementById("calculatorInput").value;
+        var result = eval(input);
+        document.getElementById("calculatorInput").value = result;
+    }
+
+    function calculateCurrentRatio() {
+        var currentAssets = parseFloat(document.getElementById("currentAssets").value);
+        var currentLiabilities = parseFloat(document.getElementById("currentLiabilities").value);
+
+        if (!isNaN(currentAssets) && !isNaN(currentLiabilities) && currentLiabilities !== 0) {
+            var currentRatio = currentAssets / currentLiabilities;
+            document.getElementById("result").innerHTML = "Current Ratio: " + currentRatio.toFixed(2);
+        } else {
+            document.getElementById("result").innerHTML = "Please enter valid values for Current Assets and Current Liabilities.";
+        }
+    }
+
+</script>
+
+</body>
+</html>
